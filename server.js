@@ -1,16 +1,12 @@
 const http = require('http');
-const { v4:uuidv4 } =require('uuid');
+
 const errorHandle=require('./errorHandle');
+const resHandle=require('./resHandle');
+const {changtodos} = require('./baseHeader');
+
 const todos = [];
 
 const requestListener =(req, res)=>{
-    const headers={
-        //'Content-Type' : 'text/lain',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization, Content-Length, X-Requested-With',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'PATCH, POST, GET,OPTIONS,DELETE',
-        'Content-Type': 'application/json'
-    };
 
     let body='';
     req.on('data', chunk=>{
@@ -18,90 +14,45 @@ const requestListener =(req, res)=>{
     });
 
     if(req.url=="/todos" && req.method=="GET"){
-        res.writeHead(200,headers);
-        res.write(JSON.stringify({
-            'status': 'success',
-            'data': todos
-        }));
-        res.end();
+        resHandle(res, todos);
     } else if (req.url=="/todos" && req.method=="POST"){
         req.on('end',()=>{
             try{
-                const title =JSON.parse(body).title;
-                const todo={
-                    'title': title,
-                    'id': uuidv4()
-                };
-                todos.push(todo);
-                res.writeHead(200,headers);
-                res.write(JSON.stringify({
-                    'status':'success',
-                    'data': todos,
-                }));
-                res.end();
+                changtodos(req,todos,body);
+                resHandle(res, todos);
             }catch(error) {
-                errorHandle(res);
+                errorHandle(400,res,'欄位未填寫正確，無此todo id');
             }
-           
         });
-       
     } else if (req.url=="/todos" && req.method=="DELETE"){
         todos.length= 0;
-        res.writeHead(200,headers);
-        res.write(JSON.stringify({
-            'status':'success',
-            'data': todos,            
-        }));
-        res.end();
+        resHandle(res, todos);
     } else if (req.url.startsWith("/todos/") && req.method=="DELETE"){    
         const id =req.url.split('/').pop();    
         const index= todos.findIndex(e=>e.id==id);
         if(index !== -1){
             todos.splice(index,1);
-            res.writeHead(200,headers);
-            res.write(JSON.stringify({
-                'status':'success',
-                'data': todos,
-            }));
-            res.end();
+            resHandle(res, todos);
         } else {
-            errorHandle(res);
+            errorHandle(400,res,'欄位未填寫正確，無此todo id');
         }
-        
     } else if (req.url.startsWith("/todos/") && req.method=="PATCH"){    
         req.on('end',()=>{
             try{
-                const todo=JSON.parse(body).title;
-                const id = req.url.split('/').pop();
-                const index = todos.findIndex(e=>e.id==id);
-                if(todo!== undefined && index !==-1){
-                    todos[index].title=todo;
-                    res.writeHead(200,headers);
-                    res.write(JSON.stringify({
-                        'status':'success',
-                        'data': todos,
-                    }));
-                    res.end();
+                if( changtodos(req,todos,body) ) {
+                    resHandle(res, todos);
                 } else {
-                    errorHandle(res);
+                    errorHandle(400,res,'欄位未填寫正確，無此todo id');
                 }
             }catch(error){
-                errorHandle(res);
+                errorHandle(400,res,'欄位未填寫正確，無此todo id');
             }
         });
-       
     } else if(req.method== "OPTIONS") {
-        res.writeHead(200,headers);
-        res.end();
+        resHandle(res, todos,false);        
     } else {
-        res.writeHead(404,headers);
-        res.write(JSON.stringify({
-            'status':'false',
-            'message':'無此網站路由'
-        }));
-        res.end();
+        errorHandle(404,res,'無此網站路由');
     }
-    
 };
 
 const server = http.createServer(requestListener);
