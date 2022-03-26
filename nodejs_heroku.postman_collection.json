@@ -1,0 +1,119 @@
+{
+	"info": {
+		"_postman_id": "5fb63be3-a5aa-48d6-92af-b7b28ed3ac07",
+		"name": "nodejs_heroku",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "新增所有代辦",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"1\"\r\n}"
+				},
+				"url": {
+					"raw": "https://glacial-bastion-11709.herokuapp.com/todos",
+					"protocol": "https",
+					"host": [
+						"glacial-bastion-11709",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "取得所有代辦",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://glacial-bastion-11709.herokuapp.com/todos",
+					"protocol": "https",
+					"host": [
+						"glacial-bastion-11709",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "刪除所有代辦",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://glacial-bastion-11709.herokuapp.com/todos",
+					"protocol": "https",
+					"host": [
+						"glacial-bastion-11709",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "刪除單筆代辦",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://glacial-bastion-11709.herokuapp.com/todos/e47c80a1-b835-4e95-871e-8bbea4abbca2",
+					"protocol": "https",
+					"host": [
+						"glacial-bastion-11709",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"todos",
+						"e47c80a1-b835-4e95-871e-8bbea4abbca2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "編輯單筆代辦 Copy",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"4\"\r\n}"
+				},
+				"url": {
+					"raw": "https://glacial-bastion-11709.herokuapp.com/todos/127cb5c1-f16d-4474-9931-b8717afe8df1",
+					"protocol": "https",
+					"host": [
+						"glacial-bastion-11709",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"todos",
+						"127cb5c1-f16d-4474-9931-b8717afe8df1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
