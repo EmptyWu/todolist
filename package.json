@@ -2,7 +2,7 @@
   "name": "todolist",
   "version": "1.0.0",
   "description": "",
-  "main": "errorHandle.js",
+  "main": "server.js",
   "dependencies": {
     "uuid": "^8.3.2"
   },
@@ -12,5 +12,8 @@
     "start": "node server.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": "14.18.3"
+  }
 }
